@@ -1,0 +1,2787 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#080d1b">
+
+<title>Hào Toán RPG V7.4</title>
+
+<style>
+
+:root{
+
+--bg:#080d1b;
+
+--panel:#141f36;
+
+--panel2:#101a2e;
+
+--text:#f3f6ff;
+
+--muted:#9baaca;
+
+--primary:#6d8cff;
+
+--green:#34d399;
+
+--red:#fb7185;
+
+--gold:#fbbf24;
+
+--border:#263653;
+
+}
+
+*{box-sizing:border-box}
+
+body{
+
+margin:0;
+
+background:var(--bg);
+
+color:var(--text);
+
+font-family:Arial,sans-serif;
+
+min-height:100vh;
+
+}
+
+button,input{font:inherit}
+
+button{
+
+border:0;
+
+cursor:pointer;
+
+color:white;
+
+background:#30456e;
+
+border-radius:12px;
+
+padding:12px 16px;
+
+font-weight:bold;
+
+transition:.15s;
+
+}
+
+button:active{transform:scale(.97)}
+
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.primary{background:var(--primary)}
+
+.success{background:#059669}
+
+.danger{background:#be123c}
+
+.gold{background:#b7791f}
+
+.secondary{background:#263653}
+
+input{
+
+width:100%;
+
+padding:13px;
+
+border-radius:11px;
+
+border:1px solid var(--border);
+
+background:#091326;
+
+color:white;
+
+outline:none;
+
+margin:6px 0 12px;
+
+}
+
+input:focus{border-color:var(--primary)}
+
+header{
+
+position:sticky;
+
+top:0;
+
+z-index:10;
+
+background:#0b1426ee;
+
+backdrop-filter:blur(12px);
+
+border-bottom:1px solid var(--border);
+
+padding:12px;
+
+}
+
+.header-row{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:8px;
+
+flex-wrap:wrap;
+
+}
+
+.logo{
+
+font-size:19px;
+
+font-weight:900;
+
+color:#91aaff;
+
+}
+
+.stats{
+
+display:flex;
+
+gap:7px;
+
+flex-wrap:wrap;
+
+margin-top:10px;
+
+}
+
+.stat{
+
+background:#17243d;
+
+border:1px solid var(--border);
+
+border-radius:10px;
+
+padding:7px 10px;
+
+font-size:12px;
+
+}
+
+main{
+
+max-width:850px;
+
+margin:auto;
+
+padding:15px;
+
+}
+
+.screen{display:none}
+
+.screen.active{display:block}
+
+.card{
+
+background:linear-gradient(145deg,var(--panel),var(--panel2));
+
+border:1px solid var(--border);
+
+border-radius:17px;
+
+padding:17px;
+
+margin-bottom:14px;
+
+box-shadow:0 8px 25px #0003;
+
+}
+
+h1,h2,h3{margin-top:0}
+
+h1{font-size:25px}
+
+h2{font-size:20px}
+
+.muted{color:var(--muted)}
+
+.small{font-size:12px;color:var(--muted)}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,minmax(0,1fr));
+
+gap:10px;
+
+}
+
+@media(max-width:430px){
+
+.grid{grid-template-columns:1fr}
+
+}
+
+.menu-button{
+
+min-height:85px;
+
+text-align:left;
+
+background:#1b2b49;
+
+border:1px solid #30456e;
+
+}
+
+.menu-button strong{
+
+display:block;
+
+font-size:16px;
+
+margin-bottom:5px;
+
+}
+
+.progress{
+
+height:11px;
+
+background:#07101f;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin:10px 0;
+
+}
+
+.progress-bar{
+
+height:100%;
+
+width:0%;
+
+background:linear-gradient(90deg,#5685ff,#34d399);
+
+transition:width .2s;
+
+}
+
+.question{
+
+font-size:35px;
+
+font-weight:900;
+
+text-align:center;
+
+padding:25px 5px;
+
+}
+
+.answers{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:10px;
+
+}
+
+.answer{
+
+font-size:21px;
+
+padding:17px;
+
+background:#233859;
+
+}
+
+.answer.correct{background:#047857}
+
+.answer.wrong{background:#be123c}
+
+.game-info{
+
+display:flex;
+
+justify-content:space-between;
+
+gap:8px;
+
+font-size:13px;
+
+flex-wrap:wrap;
+
+}
+
+.timer{
+
+height:13px;
+
+background:#07101f;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin:12px 0;
+
+}
+
+.timer-bar{
+
+height:100%;
+
+width:100%;
+
+background:#34d399;
+
+transition:width .1s linear;
+
+}
+
+.center{text-align:center}
+
+.big{font-size:32px;font-weight:900}
+
+.gold-text{color:var(--gold)}
+
+.green-text{color:var(--green)}
+
+.red-text{color:var(--red)}
+
+.row{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+}
+
+.item{
+
+padding:12px;
+
+border-radius:12px;
+
+background:#0d1930;
+
+border:1px solid var(--border);
+
+margin:8px 0;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+background:#263c62;
+
+font-size:11px;
+
+margin:3px;
+
+}
+
+.toast{
+
+position:fixed;
+
+bottom:20px;
+
+left:50%;
+
+transform:translateX(-50%) translateY(100px);
+
+background:#1c2d4c;
+
+border:1px solid #49618b;
+
+border-radius:12px;
+
+padding:13px 18px;
+
+z-index:100;
+
+opacity:0;
+
+transition:.25s;
+
+max-width:90%;
+
+text-align:center;
+
+}
+
+.toast.show{
+
+transform:translateX(-50%) translateY(0);
+
+opacity:1;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+font-size:13px;
+
+}
+
+td,th{
+
+padding:10px 6px;
+
+border-bottom:1px solid var(--border);
+
+text-align:left;
+
+}
+
+footer{
+
+text-align:center;
+
+padding:25px;
+
+color:var(--muted);
+
+font-size:12px;
+
+}
+
+.auth-card{
+
+max-width:420px;
+
+margin:30px auto;
+
+}
+
+.hidden{display:none!important}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="header-row">
+
+<div class="logo">⚔️ HÀO TOÁN RPG V7.4</div>
+
+<button class="secondary" id="logoutBtn">Đăng xuất</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat" id="accountLabel">👤 Khách</div>
+
+<div class="stat">⭐ Cấp <span id="levelTop">1</span></div>
+
+<div class="stat">✨ XP <span id="xpTop">0</span></div>
+
+<div class="stat">🪙 <span id="coinsTop">0</span></div>
+
+</div>
+
+</header>
+
+<main>
+
+<!-- ĐĂNG NHẬP -->
+
+<section id="auth" class="screen active">
+
+<div class="card auth-card">
+
+<div class="center">
+
+<div style="font-size:55px">🧠</div>
+
+<h1>HÀO TOÁN RPG</h1>
+
+<p class="muted">Rèn luyện trí tuệ – Chinh phục thử thách</p>
+
+</div>
+
+<h2>Đăng nhập</h2>
+
+<label>Tên tài khoản</label>
+
+<input id="loginUser" maxlength="20" placeholder="Nhập tên tài khoản">
+
+<label>Mật khẩu</label>
+
+<input id="loginPass" type="password" placeholder="Nhập mật khẩu">
+
+<button class="primary" id="loginBtn" style="width:100%">Đăng nhập</button>
+
+<hr style="border-color:var(--border);margin:20px 0">
+
+<h2>Tạo tài khoản</h2>
+
+<input id="registerUser" maxlength="20" placeholder="Tên tài khoản mới">
+
+<input id="registerPass" type="password" placeholder="Mật khẩu mới">
+
+<button class="success" id="registerBtn" style="width:100%">Đăng ký</button>
+
+<p class="small center" id="registerLimitText">
+
+♾️ Không giới hạn số lượng tài khoản.
+
+</p>
+
+<button class="secondary" id="guestBtn" style="width:100%">
+
+Chơi không cần tài khoản
+
+</button>
+
+</div>
+
+</section>
+
+<!-- TRANG CHỦ -->
+
+<section id="home" class="screen">
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<h1>🏰 Thành phố Toán học</h1>
+
+<p class="muted" id="welcomeText">Chào mừng trở lại!</p>
+
+</div>
+
+<div class="big" id="avatarHome">🧙</div>
+
+</div>
+
+<p>Tiến trình cấp độ</p>
+
+<div class="progress">
+
+<div class="progress-bar" id="xpBar"></div>
+
+</div>
+
+<div class="row">
+
+<span class="small" id="xpText">0 / 100 XP</span>
+
+<span class="badge" id="titleHome">Tân binh</span>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<button class="menu-button" onclick="openMode('easy')">
+
+<strong>🟢 Chế độ Dễ</strong>
+
+<span class="small">Làm quen với toán học</span>
+
+</button>
+
+<button class="menu-button" onclick="openMode('medium')">
+
+<strong>🔵 Chế độ Trung bình</strong>
+
+<span class="small">Thử thách tư duy</span>
+
+</button>
+
+<button class="menu-button" onclick="openMode('hard')">
+
+<strong>🔴 Chế độ Khó</strong>
+
+<span class="small">Chinh phục toán học</span>
+
+</button>
+
+<button class="menu-button" onclick="openMode('survival')">
+
+<strong>💀 Sinh tồn</strong>
+
+<span class="small">Sai một câu là kết thúc</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('daily')">
+
+<strong>📅 Nhiệm vụ hằng ngày</strong>
+
+<span class="small">Nhận thưởng mỗi ngày</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('boss')">
+
+<strong>🐉 Đấu trường Boss</strong>
+
+<span class="small">Đánh bại quái vật toán học</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('shop')">
+
+<strong>🛒 Cửa hàng</strong>
+
+<span class="small">Mua vật phẩm và giao diện</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('achievements')">
+
+<strong>🏆 Thành tích</strong>
+
+<span class="small">Bộ sưu tập huy hiệu</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('stats')">
+
+<strong>📊 Thống kê</strong>
+
+<span class="small">Xem kết quả luyện tập</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('leaderboard')">
+
+<strong>🥇 Bảng xếp hạng</strong>
+
+<span class="small">Kỷ lục trên thiết bị</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('profile')">
+
+<strong>👤 Hồ sơ</strong>
+
+<span class="small">Avatar và danh hiệu</span>
+
+</button>
+
+<button class="menu-button" onclick="showScreen('admin')">
+
+<strong>⚙️ ADMIN</strong>
+
+<span class="small">Khu vực quản trị</span>
+
+</button>
+
+</div>
+
+</section>
+
+<!-- GAME -->
+
+<section id="game" class="screen">
+
+<div class="card">
+
+<div class="row">
+
+<button class="secondary" onclick="leaveGame()">← Thoát</button>
+
+<span class="badge" id="modeLabel">Chế độ Dễ</span>
+
+</div>
+
+<div class="game-info">
+
+<span>❤️ Mạng: <b id="lives">3</b></span>
+
+<span>🔥 Combo: <b id="combo">0</b></span>
+
+<span>⭐ Điểm: <b id="score">0</b></span>
+
+<span>⏱️ <b id="timeText">30</b>s</span>
+
+</div>
+
+<div class="timer">
+
+<div class="timer-bar" id="timerBar"></div>
+
+</div>
+
+<div class="question" id="question">1 + 1 = ?</div>
+
+<div class="answers" id="answers"></div>
+
+<div class="center" style="margin-top:15px">
+
+<p id="gameMessage" class="muted">Chọn đáp án đúng!</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- KẾT QUẢ -->
+
+<section id="result" class="screen">
+
+<div class="card center">
+
+<div style="font-size:60px">🏆</div>
+
+<h1>Kết thúc trận đấu</h1>
+
+<div class="big gold-text" id="finalScore">0</div>
+
+<p>Điểm số</p>
+
+<div class="grid">
+
+<div class="item">✅ Đúng<br><b id="finalRight">0</b></div>
+
+<div class="item">❌ Sai<br><b id="finalWrong">0</b></div>
+
+<div class="item">✨ XP<br><b id="finalXP">0</b></div>
+
+<div class="item">🪙 Xu<br><b id="finalCoins">0</b></div>
+
+</div>
+
+<button class="primary" onclick="showScreen('home')" style="width:100%">
+
+Về trang chủ
+
+</button>
+
+<button class="success" onclick="restartGame()" style="width:100%;margin-top:10px">
+
+Chơi lại
+
+</button>
+
+</div>
+
+</section>
+
+<!-- NHIỆM VỤ -->
+
+<section id="daily" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>📅 Nhiệm vụ hằng ngày</h1>
+
+<div class="item">
+
+<h3>🎯 Trả lời 20 câu đúng</h3>
+
+<p id="dailyProgress">0 / 20</p>
+
+<div class="progress">
+
+<div class="progress-bar" id="dailyBar"></div>
+
+</div>
+
+<p class="gold-text">Phần thưởng: 100 xu + 50 XP</p>
+
+<button class="success" id="dailyClaim" onclick="claimDaily()">Nhận thưởng</button>
+
+</div>
+
+<div class="item">
+
+<h3>🔥 Chuỗi ngày hoạt động</h3>
+
+<p id="dailyStreak">0 ngày</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- BOSS -->
+
+<section id="boss" class="screen">
+
+<div class="card center">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<div style="font-size:70px">🐉</div>
+
+<h1>Đấu trường Boss</h1>
+
+<h2 id="bossName">Rồng Toán Học</h2>
+
+<p>Máu Boss</p>
+
+<div class="progress">
+
+<div class="progress-bar" id="bossBar"></div>
+
+</div>
+
+<p id="bossHP">100 / 100</p>
+
+<p class="muted">Trả lời đúng để gây sát thương!</p>
+
+<button class="danger" onclick="startBoss()">⚔️ Bắt đầu chiến đấu</button>
+
+<div id="bossQuestionArea"></div>
+
+</div>
+
+</section>
+
+<!-- CỬA HÀNG -->
+
+<section id="shop" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>🛒 Cửa hàng</h1>
+
+<p>Xu hiện có: <b id="shopCoins">0</b> 🪙</p>
+
+<div id="shopItems"></div>
+
+</div>
+
+</section>
+
+<!-- THÀNH TÍCH -->
+
+<section id="achievements" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>🏆 Thành tích</h1>
+
+<div id="achievementList"></div>
+
+</div>
+
+</section>
+
+<!-- THỐNG KÊ -->
+
+<section id="stats" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>📊 Thống kê</h1>
+
+<div id="statsContent"></div>
+
+</div>
+
+</section>
+
+<!-- BẢNG XẾP HẠNG -->
+
+<section id="leaderboard" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>🥇 Bảng xếp hạng</h1>
+
+<div id="leaderboardContent"></div>
+
+</div>
+
+</section>
+
+<!-- HỒ SƠ -->
+
+<section id="profile" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>👤 Hồ sơ nhân vật</h1>
+
+<div class="center">
+
+<div style="font-size:70px" id="profileAvatar">🧙</div>
+
+<h2 id="profileName">Người chơi</h2>
+
+<p id="profileTitle">Tân binh</p>
+
+</div>
+
+<h3>Chọn avatar</h3>
+
+<div id="avatarList" class="grid"></div>
+
+<h3>Danh hiệu</h3>
+
+<div id="titleList"></div>
+
+</div>
+
+</section>
+
+<!-- ADMIN -->
+
+<section id="admin" class="screen">
+
+<div class="card">
+
+<button class="secondary" onclick="showScreen('home')">← Quay lại</button>
+
+<h1>⚙️ ADMIN</h1>
+
+<div id="adminLocked">
+
+<p class="muted">Khu vực quản trị cần xác thực.</p>
+
+<input id="adminPassword" type="password" placeholder="Mật khẩu ADMIN">
+
+<button class="primary" onclick="unlockAdmin()">Mở khóa ADMIN</button>
+
+</div>
+
+<div id="adminPanel" class="hidden">
+
+<h2>Điều khiển</h2>
+
+<button class="gold" onclick="adminReward()">🎁 Nhận 1000 xu</button>
+
+<button class="primary" onclick="adminXP()">✨ Cộng 1000 XP</button>
+
+<button class="success" onclick="adminMax()">🚀 MAX cấp độ</button>
+
+<button class="secondary" onclick="adminTime()">⏱️ Bật/tắt vô hạn thời gian</button>
+
+<button class="secondary" onclick="adminSpeed()">⚡ Bật/tắt tốc độ nhanh</button>
+
+<button class="secondary" onclick="adminAuto()">🤖 Bật/tắt tự động trả lời</button>
+
+<p id="adminStatus" class="muted"></p>
+
+</div>
+
+<p class="small">ADMIN là tính năng quản trị trong game cá nhân. Dữ liệu lưu trên thiết bị.</p>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+Hào Toán RPG V7.4 · Học toán mỗi ngày
+
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* HÀO TOÁN RPG V7.4 */
+
+const ACCOUNT_KEY='hao_toan_rpg_v7_accounts';
+
+const DATA_PREFIX='hao_toan_rpg_v7_data_';
+
+const GUEST_DATA_KEY='hao_toan_rpg_v7_guest_data';
+
+const SESSION_KEY='hao_toan_rpg_v7_session';
+
+const ADMIN_PASSWORD='10012016';
+
+let currentUser=null;
+
+let isGuest=true;
+
+let data=null;
+
+let game=null;
+
+let timerInterval=null;
+
+let questionLock=false;
+
+let lastMode='easy';
+
+let adminUnlocked=false;
+
+let adminInfinite=false;
+
+let adminFast=false;
+
+let adminAutoEnabled=false;
+
+const $=id=>document.getElementById(id);
+
+function today(){
+
+return new Date().toISOString().slice(0,10);
+
+}
+
+function toast(message){
+
+const t=$('toast');
+
+t.textContent=message;
+
+t.classList.add('show');
+
+clearTimeout(t._timer);
+
+t._timer=setTimeout(()=>t.classList.remove('show'),2300);
+
+}
+
+function showScreen(id){
+
+document.querySelectorAll('.screen').forEach(s=>{
+
+s.classList.remove('active');
+
+});
+
+$(id).classList.add('active');
+
+window.scrollTo(0,0);
+
+if(id==='home')renderHome();
+
+if(id==='daily')renderDaily();
+
+if(id==='shop')renderShop();
+
+if(id==='achievements')renderAchievements();
+
+if(id==='stats')renderStats();
+
+if(id==='leaderboard')renderLeaderboard();
+
+if(id==='profile')renderProfile();
+
+if(id==='boss')renderBoss();
+
+}
+
+function defaults(){
+
+return {
+
+level:1,
+
+xp:0,
+
+coins:0,
+
+games:0,
+
+right:0,
+
+wrong:0,
+
+bestStreak:0,
+
+currentStreak:0,
+
+adminBestHardScore:0,
+
+records:{
+
+easy:0,
+
+medium:0,
+
+hard:0,
+
+survival:0
+
+},
+
+ownedThemes:['default'],
+
+theme:'default',
+
+achievements:[],
+
+dailyDate:today(),
+
+dailyCorrect:0,
+
+dailyClaimed:false,
+
+dailyStreak:0,
+
+dailyLastCompleted:'',
+
+bossesDefeated:0,
+
+chestsOpened:0,
+
+ownedAvatars:['🧙'],
+
+avatar:'🧙',
+
+ownedTitles:['Tân binh'],
+
+title:'Tân binh',
+
+adminUnlocked:false,
+
+adminRewardClaimed:false
+
+};
+
+}
+
+function getAccounts(){
+
+try{
+
+return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'{}');
+
+}catch(e){
+
+return {};
+
+}
+
+}
+
+function saveAccounts(accounts){
+
+localStorage.setItem(ACCOUNT_KEY,JSON.stringify(accounts));
+
+}
+
+function normalizeUsername(s){
+
+return s.normalize('NFC').trim().replace(/\s+/g,' ').toLowerCase();
+
+}
+
+function validUsername(s){
+
+return /^[\p{L}\p{N}_ -]{3,20}$/u.test(s);
+
+}
+
+async function hashPassword(password){
+
+if(!crypto.subtle){
+
+throw new Error('Trình duyệt cần HTTPS để mã hóa mật khẩu.');
+
+}
+
+const bytes=new TextEncoder().encode(password);
+
+const hash=await crypto.subtle.digest('SHA-256',bytes);
+
+return Array.from(new Uint8Array(hash))
+
+.map(b=>b.toString(16).padStart(2,'0')).join('');
+
+}
+
+function updateRegisterText(){
+
+$('registerLimitText').textContent=
+
+'♾️ Không giới hạn số lượng tài khoản đăng ký.';
+
+}
+
+function saveSession(username){
+
+localStorage.setItem(SESSION_KEY,JSON.stringify({
+
+username:username
+
+}));
+
+}
+
+function clearSession(){
+
+localStorage.removeItem(SESSION_KEY);
+
+}
+
+function save(){
+
+if(!data)return;
+
+try{
+
+const key=isGuest
+
+?GUEST_DATA_KEY
+
+:DATA_PREFIX+currentUser;
+
+localStorage.setItem(key,JSON.stringify(data));
+
+}catch(e){
+
+toast('Không thể lưu dữ liệu!');
+
+}
+
+}
+
+function loadData(){
+
+let old=null;
+
+try{
+
+const key=isGuest
+
+?GUEST_DATA_KEY
+
+:DATA_PREFIX+currentUser;
+
+old=JSON.parse(localStorage.getItem(key)||'null');
+
+}catch(e){}
+
+const base=defaults();
+
+if(old&&typeof old==='object'){
+
+data=Object.assign(base,old);
+
+data.records=Object.assign(base.records,old.records||{});
+
+}else{
+
+data=base;
+
+}
+
+if(data.dailyDate!==today()){
+
+data.dailyDate=today();
+
+data.dailyCorrect=0;
+
+data.dailyClaimed=false;
+
+}
+
+if(!Array.isArray(data.achievements))data.achievements=[];
+
+if(!Array.isArray(data.ownedAvatars))data.ownedAvatars=['🧙'];
+
+if(!Array.isArray(data.ownedTitles))data.ownedTitles=['Tân binh'];
+
+return data;
+
+}
+
+/* ĐĂNG KÝ KHÔNG GIỚI HẠN */
+
+async function register(){
+
+const username=$('registerUser').value.trim();
+
+const password=$('registerPass').value;
+
+if(!validUsername(username)){
+
+toast('Tên tài khoản phải có 3–20 ký tự hợp lệ!');
+
+return;
+
+}
+
+if(password.length<4){
+
+toast('Mật khẩu cần ít nhất 4 ký tự!');
+
+return;
+
+}
+
+const key=normalizeUsername(username);
+
+let accounts=getAccounts();
+
+if(accounts[key]){
+
+toast('Tên tài khoản đã tồn tại!');
+
+return;
+
+}
+
+try{
+
+const hash=await hashPassword(password);
+
+accounts=getAccounts();
+
+if(accounts[key]){
+
+toast('Tên tài khoản đã tồn tại!');
+
+return;
+
+}
+
+accounts[key]=hash;
+
+saveAccounts(accounts);
+
+$('registerPass').value='';
+
+$('loginPass').value='';
+
+enterGame(key,false);
+
+toast('Tạo tài khoản thành công!');
+
+}catch(e){
+
+toast(e.message||'Không thể tạo tài khoản!');
+
+}
+
+}
+
+/* ĐĂNG NHẬP */
+
+async function login(){
+
+const username=normalizeUsername($('loginUser').value);
+
+const password=$('loginPass').value;
+
+if(!username||!password){
+
+toast('Nhập tài khoản và mật khẩu!');
+
+return;
+
+}
+
+const accounts=getAccounts();
+
+if(!accounts[username]){
+
+toast('Tài khoản không tồn tại!');
+
+return;
+
+}
+
+try{
+
+const hash=await hashPassword(password);
+
+if(accounts[username]!==hash){
+
+toast('Sai mật khẩu!');
+
+return;
+
+}
+
+enterGame(username,false);
+
+toast('Đăng nhập thành công!');
+
+}catch(e){
+
+toast(e.message);
+
+}
+
+}
+
+/* VÀO GAME */
+
+function enterGame(username,guest=false){
+
+currentUser=username;
+
+isGuest=guest;
+
+if(guest){
+
+clearSession();
+
+}else{
+
+saveSession(username);
+
+}
+
+loadData();
+
+$('accountLabel').textContent=guest
+
+?'👤 Khách'
+
+:'👤 '+username;
+
+$('welcomeText').textContent='Chào mừng '+(guest?'người chơi':username)+'!';
+
+updateTop();
+
+applyTheme();
+
+save();
+
+showScreen('home');
+
+}
+
+/* TỰ ĐỘNG ĐĂNG NHẬP */
+
+function restoreSession(){
+
+try{
+
+const raw=localStorage.getItem(SESSION_KEY);
+
+if(!raw)return false;
+
+const session=JSON.parse(raw);
+
+if(!session||typeof session.username!=='string'){
+
+clearSession();
+
+return false;
+
+}
+
+const accounts=getAccounts();
+
+if(!accounts[session.username]){
+
+clearSession();
+
+return false;
+
+}
+
+enterGame(session.username,false);
+
+toast('Chào mừng trở lại!');
+
+return true;
+
+}catch(e){
+
+clearSession();
+
+return false;
+
+}
+
+}
+
+/* ĐĂNG XUẤT */
+
+function logout(){
+
+if(!currentUser){
+
+showScreen('auth');
+
+return;
+
+}
+
+if(game){
+
+toast('Hãy kết thúc trận đấu trước!');
+
+return;
+
+}
+
+save();
+
+clearSession();
+
+currentUser=null;
+
+isGuest=true;
+
+data=null;
+
+$('loginPass').value='';
+
+$('registerPass').value='';
+
+showScreen('auth');
+
+updateRegisterText();
+
+toast('Đã đăng xuất!');
+
+}
+
+/* CẤP ĐỘ */
+
+function xpNeeded(level){
+
+return level*100;
+
+}
+
+function addXP(amount){
+
+data.xp+=amount;
+
+while(data.xp>=xpNeeded(data.level)){
+
+data.xp-=xpNeeded(data.level);
+
+data.level++;
+
+data.coins+=50;
+
+toast('🎉 Lên cấp '+data.level+'! +50 xu');
+
+}
+
+save();
+
+updateTop();
+
+}
+
+function updateTop(){
+
+if(!data)return;
+
+$('levelTop').textContent=data.level;
+
+$('xpTop').textContent=data.xp;
+
+$('coinsTop').textContent=data.coins;
+
+}
+
+function renderHome(){
+
+if(!data)return;
+
+updateTop();
+
+$('xpBar').style.width=
+
+(data.xp/xpNeeded(data.level)*100)+'%';
+
+$('xpText').textContent=
+
+data.xp+' / '+xpNeeded(data.level)+' XP';
+
+$('titleHome').textContent=data.title;
+
+$('avatarHome').textContent=data.avatar;
+
+$('welcomeText').textContent=
+
+'Chào mừng '+(isGuest?'người chơi':currentUser)+'!';
+
+}
+
+/* TẠO CÂU HỎI */
+
+function randomInt(min,max){
+
+return Math.floor(Math.random()*(max-min+1))+min;
+
+}
+
+function makeQuestion(mode){
+
+let a,b,answer,operator;
+
+let max=10;
+
+if(mode==='medium')max=30;
+
+if(mode==='hard')max=100;
+
+if(mode==='survival')max=50;
+
+const operations=mode==='easy'
+
+?['+','-']
+
+:mode==='medium'
+
+?['+','-','×']
+
+:['+','-','×','÷'];
+
+operator=operations[randomInt(0,operations.length-1)];
+
+if(operator==='+'){
+
+a=randomInt(1,max);
+
+b=randomInt(1,max);
+
+answer=a+b;
+
+}
+
+if(operator==='-'){
+
+a=randomInt(1,max);
+
+b=randomInt(1,a);
+
+answer=a-b;
+
+}
+
+if(operator==='×'){
+
+a=randomInt(2,mode==='hard'?20:12);
+
+b=randomInt(2,12);
+
+answer=a*b;
+
+}
+
+if(operator==='÷'){
+
+b=randomInt(2,12);
+
+answer=randomInt(2,12);
+
+a=b*answer;
+
+}
+
+return {
+
+text:a+' '+operator+' '+b+' = ?',
+
+answer:answer
+
+};
+
+}
+
+/* BẮT ĐẦU CHẾ ĐỘ */
+
+function openMode(mode){
+
+lastMode=mode;
+
+const settings={
+
+easy:{time:30,lives:3,label:'Dễ'},
+
+medium:{time:25,lives:3,label:'Trung bình'},
+
+hard:{time:20,lives:3,label:'Khó'},
+
+survival:{time:15,lives:1,label:'Sinh tồn'}
+
+};
+
+const s=settings[mode];
+
+game={
+
+mode:mode,
+
+time:s.time,
+
+maxTime:s.time,
+
+lives:s.lives,
+
+score:0,
+
+right:0,
+
+wrong:0,
+
+combo:0,
+
+running:true,
+
+question:null
+
+};
+
+$('modeLabel').textContent='Chế độ '+s.label;
+
+showScreen('game');
+
+nextQuestion();
+
+startTimer();
+
+}
+
+/* ĐỒNG HỒ */
+
+function startTimer(){
+
+clearInterval(timerInterval);
+
+timerInterval=setInterval(()=>{
+
+if(!game||!game.running)return;
+
+if(adminInfinite){
+
+game.time=game.maxTime;
+
+}else{
+
+game.time-=adminFast?0.1:1;
+
+}
+
+if(game.time<=0){
+
+game.time=0;
+
+endGame();
+
+return;
+
+}
+
+updateTimerUI();
+
+},adminFast?100:1000);
+
+}
+
+function updateTimerUI(){
+
+if(!game)return;
+
+$('timeText').textContent=Math.ceil(game.time);
+
+const percent=Math.max(0,game.time/game.maxTime*100);
+
+$('timerBar').style.width=percent+'%';
+
+$('timerBar').style.background=
+
+percent<30?'#fb7185':'#34d399';
+
+}
+
+/* HIỂN THỊ CÂU HỎI */
+
+function nextQuestion(){
+
+if(!game||!game.running)return;
+
+questionLock=false;
+
+const q=makeQuestion(game.mode);
+
+game.question=q;
+
+$('question').textContent=q.text;
+
+$('lives').textContent=game.lives;
+
+$('combo').textContent=game.combo;
+
+$('score').textContent=game.score;
+
+$('answers').innerHTML='';
+
+const choices=new Set([q.answer]);
+
+while(choices.size<4){
+
+let wrong=q.answer+randomInt(-10,10);
+
+if(wrong!==q.answer)choices.add(wrong);
+
+}
+
+const list=Array.from(choices).sort(()=>Math.random()-.5);
+
+list.forEach(value=>{
+
+const btn=document.createElement('button');
+
+btn.className='answer';
+
+btn.textContent=value;
+
+btn.onclick=()=>answerQuestion(value,btn);
+
+$('answers').appendChild(btn);
+
+});
+
+if(adminAutoEnabled){
+
+setTimeout(()=>{
+
+if(game&&game.running&&!questionLock){
+
+answerQuestion(q.answer,null);
+
+}
+
+},350);
+
+}
+
+}
+
+/* TRẢ LỜI */
+
+function answerQuestion(value,button){
+
+if(!game||!game.running||questionLock)return;
+
+questionLock=true;
+
+const correct=value===game.question.answer;
+
+if(correct){
+
+game.right++;
+
+game.combo++;
+
+const points=game.mode==='hard'?30:
+
+game.mode==='medium'?20:10;
+
+game.score+=points+Math.min(game.combo*2,30);
+
+$('gameMessage').textContent='🎉 Chính xác!';
+
+if(button)button.classList.add('correct');
+
+data.right++;
+
+data.dailyCorrect++;
+
+data.bestStreak=Math.max(data.bestStreak,game.combo);
+
+}else{
+
+game.wrong++;
+
+game.combo=0;
+
+game.lives--;
+
+$('gameMessage').textContent=
+
+'❌ Đáp án đúng: '+game.question.answer;
+
+if(button)button.classList.add('wrong');
+
+data.wrong++;
+
+}
+
+$('score').textContent=game.score;
+
+$('combo').textContent=game.combo;
+
+$('lives').textContent=game.lives;
+
+Array.from($('answers').children).forEach(btn=>{
+
+btn.disabled=true;
+
+});
+
+save();
+
+setTimeout(()=>{
+
+if(!game||!game.running)return;
+
+if(game.lives<=0){
+
+endGame();
+
+}else{
+
+nextQuestion();
+
+}
+
+},550);
+
+}
+
+/* KẾT THÚC */
+
+function endGame(){
+
+if(!game)return;
+
+game.running=false;
+
+clearInterval(timerInterval);
+
+const g=game;
+
+data.games++;
+
+const earnedXP=g.right*5+Math.floor(g.score/10);
+
+const earnedCoins=g.right*3+Math.floor(g.score/20);
+
+data.coins+=earnedCoins;
+
+addXP(earnedXP);
+
+data.records[g.mode]=Math.max(
+
+data.records[g.mode]||0,
+
+g.score
+
+);
+
+if(g.mode==='hard'){
+
+data.adminBestHardScore=Math.max(
+
+data.adminBestHardScore||0,
+
+g.score
+
+);
+
+}
+
+checkAchievements();
+
+$('finalScore').textContent=g.score;
+
+$('finalRight').textContent=g.right;
+
+$('finalWrong').textContent=g.wrong;
+
+$('finalXP').textContent=earnedXP;
+
+$('finalCoins').textContent=earnedCoins;
+
+game=null;
+
+save();
+
+showScreen('result');
+
+}
+
+function leaveGame(){
+
+if(!game)return;
+
+game.running=false;
+
+clearInterval(timerInterval);
+
+game=null;
+
+showScreen('home');
+
+}
+
+function restartGame(){
+
+openMode(lastMode);
+
+}
+
+/* THÀNH TÍCH */
+
+const ACHIEVEMENTS=[
+
+{id:'first',name:'Bước chân đầu tiên',desc:'Hoàn thành trận đầu tiên'},
+
+{id:'right10',name:'Trí tuệ nhanh',desc:'Trả lời đúng 10 câu'},
+
+{id:'right100',name:'Bậc thầy toán học',desc:'Trả lời đúng 100 câu'},
+
+{id:'level5',name:'Chiến binh cấp 5',desc:'Đạt cấp độ 5'},
+
+{id:'boss1',name:'Kẻ săn rồng',desc:'Đánh bại Boss đầu tiên'},
+
+{id:'combo10',name:'Combo siêu cấp',desc:'Đạt combo 10'}
+
+];
+
+function unlockAchievement(id){
+
+if(data.achievements.includes(id))return;
+
+data.achievements.push(id);
+
+data.coins+=30;
+
+toast('🏆 Mở khóa thành tích! +30 xu');
+
+}
+
+function checkAchievements(){
+
+if(data.games>=1)unlockAchievement('first');
+
+if(data.right>=10)unlockAchievement('right10');
+
+if(data.right>=100)unlockAchievement('right100');
+
+if(data.level>=5)unlockAchievement('level5');
+
+if(data.bossesDefeated>=1)unlockAchievement('boss1');
+
+if(data.bestStreak>=10)unlockAchievement('combo10');
+
+save();
+
+}
+
+function renderAchievements(){
+
+$('achievementList').innerHTML='';
+
+ACHIEVEMENTS.forEach(a=>{
+
+const done=data.achievements.includes(a.id);
+
+const div=document.createElement('div');
+
+div.className='item';
+
+div.innerHTML=
+
+'<div class="row"><b>'+a.name+'</b>'+
+
+'<span class="badge">'+(done?'Đã đạt':'Chưa đạt')+'</span></div>'+
+
+'<p class="small">'+a.desc+'</p>';
+
+$('achievementList').appendChild(div);
+
+});
+
+}
+
+/* NHIỆM VỤ */
+
+function renderDaily(){
+
+$('dailyProgress').textContent=
+
+Math.min(data.dailyCorrect,20)+' / 20';
+
+$('dailyBar').style.width=
+
+Math.min(data.dailyCorrect/20*100,100)+'%';
+
+$('dailyStreak').textContent=data.dailyStreak+' ngày';
+
+$('dailyClaim').disabled=
+
+data.dailyCorrect<20||data.dailyClaimed;
+
+$('dailyClaim').textContent=
+
+data.dailyClaimed?'Đã nhận thưởng':'Nhận thưởng';
+
+}
+
+function claimDaily(){
+
+if(data.dailyCorrect<20||data.dailyClaimed){
+
+toast('Chưa hoàn thành nhiệm vụ!');
+
+return;
+
+}
+
+data.dailyClaimed=true;
+
+data.coins+=100;
+
+addXP(50);
+
+if(data.dailyLastCompleted!==today()){
+
+const yesterday=new Date();
+
+yesterday.setDate(yesterday.getDate()-1);
+
+const y=yesterday.toISOString().slice(0,10);
+
+data.dailyStreak=
+
+data.dailyLastCompleted===y
+
+?data.dailyStreak+1:1;
+
+data.dailyLastCompleted=today();
+
+}
+
+save();
+
+renderDaily();
+
+toast('🎁 Nhận 100 xu và 50 XP!');
+
+}
+
+/* BOSS */
+
+let boss=null;
+
+function renderBoss(){
+
+if(!boss){
+
+boss={hp:100,max:100};
+
+}
+
+$('bossHP').textContent=boss.hp+' / '+boss.max;
+
+$('bossBar').style.width=boss.hp/boss.max*100+'%';
+
+}
+
+function startBoss(){
+
+boss={hp:100,max:100};
+
+$('bossQuestionArea').innerHTML='';
+
+bossNextQuestion();
+
+renderBoss();
+
+}
+
+function bossNextQuestion(){
+
+if(!boss||boss.hp<=0)return;
+
+const q=makeQuestion('hard');
+
+const area=$('bossQuestionArea');
+
+area.innerHTML='<h2>'+q.text+'</h2>';
+
+const grid=document.createElement('div');
+
+grid.className='answers';
+
+const choices=new Set([q.answer]);
+
+while(choices.size<4){
+
+const n=q.answer+randomInt(-15,15);
+
+if(n!==q.answer)choices.add(n);
+
+}
+
+Array.from(choices).sort(()=>Math.random()-.5).forEach(n=>{
+
+const btn=document.createElement('button');
+
+btn.className='answer';
+
+btn.textContent=n;
+
+btn.onclick=()=>{
+
+if(n===q.answer){
+
+boss.hp=Math.max(0,boss.hp-25);
+
+toast('⚔️ Gây 25 sát thương!');
+
+}else{
+
+toast('Boss né được đòn tấn công!');
+
+}
+
+if(boss.hp<=0){
+
+bossWin();
+
+}else{
+
+renderBoss();
+
+bossNextQuestion();
+
+}
+
+};
+
+grid.appendChild(btn);
+
+});
+
+area.appendChild(grid);
+
+}
+
+function bossWin(){
+
+data.bossesDefeated++;
+
+data.coins+=150;
+
+addXP(100);
+
+checkAchievements();
+
+save();
+
+$('bossQuestionArea').innerHTML=
+
+'<h2 class="green-text">🏆 Đã đánh bại Boss!</h2>';
+
+renderBoss();
+
+toast('Nhận 150 xu và 100 XP!');
+
+}
+
+/* CỬA HÀNG */
+
+const SHOP_ITEMS=[
+
+{id:'avatar1',name:'🦊 Cáo thông thái',price:100,type:'avatar',value:'🦊'},
+
+{id:'avatar2',name:'🐲 Rồng vàng',price:200,type:'avatar',value:'🐲'},
+
+{id:'avatar3',name:'🦁 Sư tử',price:150,type:'avatar',value:'🦁'},
+
+{id:'title1',name:'Chiến binh toán học',price:100,type:'title',value:'Chiến binh toán học'},
+
+{id:'title2',name:'Bậc thầy trí tuệ',price:250,type:'title',value:'Bậc thầy trí tuệ'}
+
+];
+
+function renderShop(){
+
+$('shopCoins').textContent=data.coins;
+
+$('shopItems').innerHTML='';
+
+SHOP_ITEMS.forEach(item=>{
+
+const owned=item.type==='avatar'
+
+?data.ownedAvatars.includes(item.value)
+
+:data.ownedTitles.includes(item.value);
+
+const div=document.createElement('div');
+
+div.className='item';
+
+const name=document.createElement('b');
+
+name.textContent=item.name;
+
+const price=document.createElement('p');
+
+price.textContent='Giá: '+item.price+' xu';
+
+const btn=document.createElement('button');
+
+btn.className=owned?'secondary':'gold';
+
+btn.textContent=owned?'Đã sở hữu':'Mua';
+
+btn.disabled=owned||data.coins<item.price;
+
+btn.onclick=()=>{
+
+if(data.coins<item.price)return;
+
+data.coins-=item.price;
+
+if(item.type==='avatar'){
+
+data.ownedAvatars.push(item.value);
+
+}else{
+
+data.ownedTitles.push(item.value);
+
+}
+
+save();
+
+renderShop();
+
+updateTop();
+
+toast('Mua thành công!');
+
+};
+
+div.append(name,price,btn);
+
+$('shopItems').appendChild(div);
+
+});
+
+}
+
+/* HỒ SƠ */
+
+function renderProfile(){
+
+$('profileName').textContent=isGuest?'Khách':currentUser;
+
+$('profileAvatar').textContent=data.avatar;
+
+$('profileTitle').textContent=data.title;
+
+$('avatarList').innerHTML='';
+
+data.ownedAvatars.forEach(a=>{
+
+const btn=document.createElement('button');
+
+btn.textContent=a;
+
+btn.className=data.avatar===a?'success':'secondary';
+
+btn.onclick=()=>{
+
+data.avatar=a;
+
+save();
+
+renderProfile();
+
+renderHome();
+
+};
+
+$('avatarList').appendChild(btn);
+
+});
+
+$('titleList').innerHTML='';
+
+data.ownedTitles.forEach(t=>{
+
+const btn=document.createElement('button');
+
+btn.textContent=t;
+
+btn.className=data.title===t?'success':'secondary';
+
+btn.style.margin='4px';
+
+btn.onclick=()=>{
+
+data.title=t;
+
+save();
+
+renderProfile();
+
+renderHome();
+
+};
+
+$('titleList').appendChild(btn);
+
+});
+
+}
+
+/* THỐNG KÊ */
+
+function renderStats(){
+
+const total=data.right+data.wrong;
+
+const rate=total?Math.round(data.right/total*100):0;
+
+$('statsContent').innerHTML=`
+
+<div class="grid">
+
+<div class="item">🎮 Trận đấu<br><b>${data.games}</b></div>
+
+<div class="item">✅ Câu đúng<br><b>${data.right}</b></div>
+
+<div class="item">❌ Câu sai<br><b>${data.wrong}</b></div>
+
+<div class="item">🎯 Độ chính xác<br><b>${rate}%</b></div>
+
+<div class="item">🔥 Combo tốt nhất<br><b>${data.bestStreak}</b></div>
+
+<div class="item">🐉 Boss đã hạ<br><b>${data.bossesDefeated}</b></div>
+
+</div>
+
+<h2>Kỷ lục</h2>
+
+<div class="item">Dễ: ${data.records.easy}</div>
+
+<div class="item">Trung bình: ${data.records.medium}</div>
+
+<div class="item">Khó: ${data.records.hard}</div>
+
+<div class="item">Sinh tồn: ${data.records.survival}</div>
+
+`;
+
+}
+
+/* BẢNG XẾP HẠNG */
+
+function renderLeaderboard(){
+
+const accounts=getAccounts();
+
+const list=[];
+
+Object.keys(accounts).forEach(username=>{
+
+try{
+
+const d=JSON.parse(
+
+localStorage.getItem(DATA_PREFIX+username)||'null'
+
+);
+
+if(d){
+
+list.push({
+
+name:username,
+
+score:d.records?.hard||0,
+
+level:d.level||1
+
+});
+
+}
+
+}catch(e){}
+
+});
+
+list.sort((a,b)=>b.score-a.score);
+
+let html='<table><tr><th>#</th><th>Tài khoản</th><th>Cấp</th><th>Điểm khó</th></tr>';
+
+list.slice(0,20).forEach((p,i)=>{
+
+html+=`<tr>
+
+<td>${i+1}</td>
+
+<td>${escapeHTML(p.name)}</td>
+
+<td>${p.level}</td>
+
+<td>${p.score}</td>
+
+</tr>`;
+
+});
+
+html+='</table>';
+
+$('leaderboardContent').innerHTML=html;
+
+}
+
+function escapeHTML(s){
+
+return String(s).replace(/[&<>"']/g,c=>({
+
+'&':'&amp;',
+
+'<':'&lt;',
+
+'>':'&gt;',
+
+'"':'&quot;',
+
+"'":'&#39;'
+
+}[c]));
+
+}
+
+/* GIAO DIỆN */
+
+function applyTheme(){
+
+if(data.theme==='dark'){
+
+document.documentElement.style.setProperty('--bg','#020617');
+
+}else{
+
+document.documentElement.style.setProperty('--bg','#080d1b');
+
+}
+
+}
+
+/* ADMIN */
+
+function unlockAdmin(){
+
+const password=$('adminPassword').value;
+
+if(password!==ADMIN_PASSWORD){
+
+toast('Sai mật khẩu ADMIN!');
+
+return;
+
+}
+
+adminUnlocked=true;
+
+$('adminLocked').classList.add('hidden');
+
+$('adminPanel').classList.remove('hidden');
+
+$('adminPassword').value='';
+
+toast('ADMIN đã mở khóa!');
+
+}
+
+function adminReward(){
+
+if(!adminUnlocked)return;
+
+data.coins+=1000;
+
+save();
+
+updateTop();
+
+toast('+1000 xu');
+
+}
+
+function adminXP(){
+
+if(!adminUnlocked)return;
+
+addXP(1000);
+
+toast('+1000 XP');
+
+}
+
+function adminMax(){
+
+if(!adminUnlocked)return;
+
+data.level=100;
+
+data.xp=0;
+
+data.coins=999999;
+
+save();
+
+updateTop();
+
+renderHome();
+
+toast('Đã MAX cấp độ!');
+
+}
+
+function adminTime(){
+
+if(!adminUnlocked)return;
+
+adminInfinite=!adminInfinite;
+
+$('adminStatus').textContent=
+
+'Vô hạn thời gian: '+(adminInfinite?'BẬT':'TẮT');
+
+}
+
+function adminSpeed(){
+
+if(!adminUnlocked)return;
+
+adminFast=!adminFast;
+
+if(game&&game.running){
+
+startTimer();
+
+}
+
+$('adminStatus').textContent=
+
+'Tốc độ nhanh: '+(adminFast?'BẬT':'TẮT');
+
+}
+
+function adminAuto(){
+
+if(!adminUnlocked)return;
+
+adminAutoEnabled=!adminAutoEnabled;
+
+$('adminStatus').textContent=
+
+'Tự động trả lời: '+(adminAutoEnabled?'BẬT':'TẮT');
+
+}
+
+/* SỰ KIỆN */
+
+$('loginBtn').onclick=login;
+
+$('registerBtn').onclick=register;
+
+$('guestBtn').onclick=()=>enterGame('Khách',true);
+
+$('logoutBtn').onclick=logout;
+
+$('loginPass').addEventListener('keydown',e=>{
+
+if(e.key==='Enter')login();
+
+});
+
+$('registerPass').addEventListener('keydown',e=>{
+
+if(e.key==='Enter')register();
+
+});
+
+/* TỰ LƯU DỮ LIỆU */
+
+document.addEventListener('visibilitychange',()=>{
+
+if(document.hidden){
+
+save();
+
+}
+
+});
+
+window.addEventListener('pagehide',save);
+
+window.addEventListener('beforeunload',save);
+
+/* KHỞI ĐỘNG */
+
+function init(){
+
+updateRegisterText();
+
+if(!restoreSession()){
+
+showScreen('auth');
+
+}
+
+}
+
+init();
+
+</script>
+
+</body>
+
+</html>
